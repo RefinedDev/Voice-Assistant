@@ -10,10 +10,10 @@ pip install gTTS
 ```
 Ok you're good now.
 
-# File saving
+# File saving and respond time
 The assistant's respond time will depend on your internet.
 
-PS: The `mp3` files will be saved in the directory where the `voicebot.py` file is located.
+The `mp3` files will be saved in the directory where the `voicebot.py` file is located.
 
 # Language change
 You can change the language by editing the following line and changing the `en` to your language's code form. `Access(Srmain,Mic,'your_language_code_form').start()`
