@@ -9,3 +9,5 @@ pip install wikipedia
 pip install gTTS
 ```
 Ok you're good now.
+
+PS: The `mp3` will be saved in the directory where the `voicebot.py` file is located.
