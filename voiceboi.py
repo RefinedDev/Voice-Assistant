@@ -16,10 +16,12 @@ class Access():
             speech.save('Welcome.mp3')
             playsound.playsound('Welcome.mp3')
 
+            self.Srmain.adjust_for_ambient_noise(source)
             query = self.Srmain.listen(source)
             try:
                 result = self.Srmain.recognize_google(query)
                 print(result)
+                print('Transcribing, please wait...')
                 if 'time' in str.lower(result):
                     unformTIME = datetime.now()
                     formattedtime = unformTIME.strftime('%I:%M %p')
