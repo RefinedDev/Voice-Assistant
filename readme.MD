@@ -10,4 +10,6 @@ pip install gTTS
 ```
 Ok you're good now.
 
+The assistant's respond time will depend on your internet.
+
 PS: The `mp3` files will be saved in the directory where the `voicebot.py` file is located.
