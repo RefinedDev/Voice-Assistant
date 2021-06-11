@@ -42,8 +42,14 @@ class Access():
                     playsound.playsound('Unrecognized.mp3')
             except SR.UnknownValueError as e:
                 print(e)
+                speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
+                speech.save('Error.mp3')
+                playsound.playsound('Error.mp3')
             except wikipedia.PageError as e:
                 print(e)
+                speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
+                speech.save('Error.mp3')
+                playsound.playsound('Error.mp3')
     
 Srmain = SR.Recognizer()
 Mic = SR.Microphone()
