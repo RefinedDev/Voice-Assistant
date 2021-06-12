@@ -3,6 +3,9 @@ from gtts import gTTS
 from datetime import datetime
 import playsound
 import wikipedia
+import urllib
+import re
+import webbrowser
 
 class Access():
     def __init__(self,main,mic,lang):
@@ -10,6 +13,7 @@ class Access():
         self.Mic = mic
         self.lang = lang
         self.WikiCheckList = ['who is','what is']
+
 
     def start(self):
         with self.Mic as source:
@@ -29,11 +33,18 @@ class Access():
                     speech = gTTS(text=f'Current time is {formattedtime}.', lang=self.lang,slow=False)
                     speech.save('Time.mp3')
                     playsound.playsound('Time.mp3')
-                elif any(value in str.lower(result) for value in self.WikiCheckList):
+                elif any(i in str.lower(result) for i in self.WikiCheckList):
                     res = wikipedia.summary(result,sentences = 2)
                     speech = gTTS(text=f'According to wikipedia,{res}', lang=self.lang,slow=False)
                     speech.save('wiki.mp3')
                     playsound.playsound('wiki.mp3')
+                elif 'play' in str.lower(result):
+                    formatresult = result.replace(" ", "+") # Replacing Whitespaces with + sign.
+                    url = f'https://www.youtube.com/results?search_query={formatresult}'
+                    YoutubeResult = urllib.request.urlopen(url) # Searching for video.
+                    videos_results = re.findall(r"watch\?v=(\S{11})",YoutubeResult.read().decode()) # Using Regular Expression to seprate the video ids into a list.
+                    VidResult = 'https://www.youtube.com/watch?v=' + videos_results[0]
+                    webbrowser.get().open_new(VidResult)
                 else:
                     speech = gTTS(text=f"Sorry, i didn't get that.", lang=self.lang,slow=False)
                     speech.save('Unrecognized.mp3')
