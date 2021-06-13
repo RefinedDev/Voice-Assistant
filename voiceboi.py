@@ -39,10 +39,10 @@ class Access():
                     speech.save('wiki.mp3')
                     playsound.playsound('wiki.mp3')
                 elif 'play' in str.lower(result):
-                    formatresult = result.replace(" ", "+") # Replacing Whitespaces with + sign.
+                    formatresult = result.replace(" ", "+")
                     url = f'https://www.youtube.com/results?search_query={formatresult}'
-                    YoutubeResult = urllib.request.urlopen(url) # Searching for video.
-                    videos_results = re.findall(r"watch\?v=(\S{11})",YoutubeResult.read().decode()) # Using Regular Expression to seprate the video ids into a list.
+                    YoutubeResult = urllib.request.urlopen(url)
+                    videos_results = re.findall(r"watch\?v=(\S{11})",YoutubeResult.read().decode())
                     VidResult = 'https://www.youtube.com/watch?v=' + videos_results[0]
                     webbrowser.get().open_new(VidResult)
                 else:
