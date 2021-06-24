@@ -8,9 +8,9 @@ import re
 import webbrowser
 
 class Access():
-    def __init__(self,main,mic,lang):
-        self.Srmain = main
-        self.Mic = mic
+    def __init__(self,lang):
+        self.Srmain =  SR.Recognizer()
+        self.Mic = SR.Microphone()
         self.lang = lang
         self.WikiCheckList = ['who is','what is']
 
@@ -61,7 +61,6 @@ class Access():
                 speech.save('Error.mp3')
                 playsound.playsound('Error.mp3')
     
-Srmain = SR.Recognizer()
-Mic = SR.Microphone()
+# FIRING THE CODE
 
-Access(Srmain,Mic,'en').start()
+Access('en').start() # Change "EN" to your specific language's code form, if you don't want it to speak in english.
