@@ -21,11 +21,11 @@ class Access():
             speech.save('Welcome.mp3')
             playsound.playsound('Welcome.mp3')
 
-            self.Srmain.adjust_for_ambient_noise(source)
-            query = self.Srmain.listen(source)
+            self.Srmain.adjust_for_ambient_noise(source) # If there's alot of noice in the background, this function will help to compensate for it.
+            query = self.Srmain.listen(source) # Listening for the voice. (Yields)
             try:
-                result = self.Srmain.recognize_google(query)
-                print(result)
+                result = self.Srmain.recognize_google(query) # Transcribes the voice
+                print(result) # The result that was transcribed
                 print('Transcribing, please wait...')
                 if 'time' in str.lower(result):
                     unformTIME = datetime.now()
@@ -42,8 +42,8 @@ class Access():
                     formatresult = result.replace(" ", "+")
                     url = f'https://www.youtube.com/results?search_query={formatresult}'
                     YoutubeResult = urllib.request.urlopen(url)
-                    videos_results = re.findall(r"watch\?v=(\S{11})",YoutubeResult.read().decode())
-                    VidResult = 'https://www.youtube.com/watch?v=' + videos_results[0]
+                    videos_results = re.findall(r"watch\?v=(\S{11})",YoutubeResult.read().decode()) # Parsing to an array of youtuber video_ids
+                    VidResult = 'https://www.youtube.com/watch?v=' + videos_results[0] # Setting video Url
                     webbrowser.get().open_new(VidResult)
                 else:
                     speech = gTTS(text=f"Sorry, i didn't get that.", lang=self.lang,slow=False)
