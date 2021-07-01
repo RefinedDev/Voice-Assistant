@@ -16,6 +16,6 @@ The assistant's respond time will depend on your internet.
 The `mp3` files will be saved in the directory where the `voicebot.py` file is located.
 
 # Language change
-You can change the language by editing the following line and changing the `first_argument` to your language's code form. `Access('your_language_code_form').start()`
+You can change the language by editing the following line and changing the `first argument` to your language's code form. `Access('your_language_code_form').start()`
 
 You MUST use the language code form, find your language's code form here. https://developers.google.com/admin-sdk/directory/v1/languages

@@ -8,16 +8,17 @@ import re
 import webbrowser
 
 class Access():
-    def __init__(self,lang):
+    def __init__(self,lang,username):
         self.Srmain =  SR.Recognizer()
         self.Mic = SR.Microphone()
         self.lang = lang
+        self.username = username
         self.WikiCheckList = ['who is','what is']
 
 
     def start(self):
         with self.Mic as source:
-            speech = gTTS(text=f'How can i help you?', lang=self.lang,slow=False)
+            speech = gTTS(text=f'Hello {self.username}, how can i help you?', lang=self.lang,slow=False)
             speech.save('Welcome.mp3')
             playsound.playsound('Welcome.mp3')
 
@@ -62,4 +63,6 @@ class Access():
                 playsound.playsound('Error.mp3')
     
 
-Access('en').start() # Change "EN" to your specific language's code form, if you don't want it to speak in english.
+Access('en','your_username_here').start() 
+# Change "EN" to your specific language's code form, if you don't want it to speak in english.
+# Change your_username_here to your desired username.
