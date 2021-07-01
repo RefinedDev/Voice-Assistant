@@ -61,6 +61,5 @@ class Access():
                 speech.save('Error.mp3')
                 playsound.playsound('Error.mp3')
     
-# FIRING THE CODE
 
 Access('en').start() # Change "EN" to your specific language's code form, if you don't want it to speak in english.
