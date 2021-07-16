@@ -1,3 +1,5 @@
+# RESULTS MAY BE INACCURATE! PARDON ME.
+
 import speech_recognition as SR
 from gtts import gTTS
 from datetime import datetime
@@ -9,25 +11,25 @@ import webbrowser
 
 class Access():
     def __init__(self,lang,username):
-        self.Srmain =  SR.Recognizer()
-        self.Mic = SR.Microphone()
+        self.SR =  SR.Recognizer()
+        self.Microphone = SR.Microphone()
         self.lang = lang
         self.username = username
         self.WikiCheckList = ['who is','what is']
 
 
     def start(self):
-        with self.Mic as source:
+        with self.Microphone as source:
             speech = gTTS(text=f'Hello {self.username}, how can i help you?', lang=self.lang,slow=False)
             speech.save('Welcome.mp3')
             playsound.playsound('Welcome.mp3')
 
-            self.Srmain.adjust_for_ambient_noise(source) # If there's alot of noice in the background, this function will help to compensate for it.
-            query = self.Srmain.listen(source) # Listening for the voice. (Yields)
+            self.SR.adjust_for_ambient_noise(source) # If there's alot of noice in the background, this method will help to compensate for it.
+            query = self.SR.listen(source) # Listening for the voice.
             try:
-                result = self.Srmain.recognize_google(query) # Transcribes the voice
-                print(result) # The result that was transcribed
                 print('Transcribing, please wait...')
+                result = self.SR.recognize_google(query) # Transcribes the voice
+                print(result) # The result that was transcribed
                 if 'time' in str.lower(result):
                     unformTIME = datetime.now()
                     formattedtime = unformTIME.strftime('%I:%M %p')
@@ -44,7 +46,7 @@ class Access():
                     url = f'https://www.youtube.com/results?search_query={formatresult}'
                     YoutubeResult = urllib.request.urlopen(url)
                     videos_results = re.findall(r"watch\?v=(\S{11})",YoutubeResult.read().decode()) # Parsing to an array of youtuber video_ids
-                    VidResult = 'https://www.youtube.com/watch?v=' + videos_results[0] # Setting video Url
+                    VidResult = 'https://www.youtube.com/watch?v=' + videos_results[0] # Setting video Url from the best result of the search.
                     webbrowser.get().open_new(VidResult)
                 else:
                     speech = gTTS(text=f"Sorry, i didn't get that.", lang=self.lang,slow=False)
