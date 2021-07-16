@@ -54,7 +54,7 @@ class Access():
                 elif 'weather' in str.lower(result):
                     splittedResult = result.split()
                     del splittedResult[0:len(splittedResult) - 1]
-                    initWeather = SetupWeatherForcasting('1de9336927f54116acb6a189842a9ccf') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
+                    initWeather = SetupWeatherForcasting('YOUR_WEATHER_API_KEY_HERE') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
                     weatherResult = initWeather.findWeather(splittedResult[0])[0]
                     temp = weatherResult['temp']
                     precepChance = weatherResult['precip']
