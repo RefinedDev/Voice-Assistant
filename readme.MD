@@ -7,6 +7,7 @@ pip install SpeechRecognition
 pip install playsound
 pip install wikipedia
 pip install gTTS
+pip install pyweatherbit
 ```
 Ok you're good now.
 
@@ -19,3 +20,15 @@ The `mp3` files will be saved in the directory where the `voicebot.py` file is l
 You can change the language by editing the following line and changing the `first argument` to your language's code form. `Access('your_language_code_form').start()`
 
 You MUST use the language code form, find your language's code form here. https://developers.google.com/admin-sdk/directory/v1/languages
+
+# Setting up the Weather class
+To make your weather questions work, you need to initialize the Weather class first with your API Key.
+
+To get your API KEY, visit https://www.weatherbit.io/api and Sign Up!
+After logging in, you will see A number of weird characters lined up with the Name (KEY), that is your api Key!
+Copy your API key, and paste it in the function where you initialize the Weather class! 
+`SetupWeatherForcasting(your_api_key_here)`
+
+Boom! You're good to go.
+
+PS: IT TAKES 1 - 2 Hours for your API KEY To actually work after making the account!
