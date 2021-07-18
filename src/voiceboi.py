@@ -15,7 +15,7 @@ from weather import weatherResultError
 from math import ceil
 import numpy
 
-class Access():
+class VoiceAssistant():
     def __init__(self,lang,username):
         self.SR =  SR.Recognizer()
         self.Microphone = SR.Microphone()
@@ -34,7 +34,7 @@ class Access():
             try:
                 print('Transcribing, please wait...')
                 result = self.SR.recognize_google(query) # Transcribes the voice
-                print(result) # The result that was transcribed
+                print(result)
                 
                 if 'time' in str.lower(result):
                     unformTIME = datetime.now()
@@ -86,7 +86,7 @@ class Access():
                 playsound.playsound('Error.mp3')
     
 
-Access(lang='en',username='your_username_here').run() 
+VoiceAssistant(lang='en',username='your_username_here').run() 
 """
 Change "EN" to your specific language's code form, if you don't want it to speak in english.
 Change your_username_here to your desired username.
