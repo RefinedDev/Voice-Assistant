@@ -1,4 +1,6 @@
-#RESULTS MAY BE INACCURATE! PARDON ME.
+"""
+ RESULTS MAY BE INACCURATE! PARDON ME.
+"""
 
 import speech_recognition as SR
 from gtts import gTTS
@@ -11,6 +13,7 @@ import webbrowser
 from weather import SetupWeatherForcasting
 from weather import weatherResultError
 from math import ceil
+import numpy
 
 class Access():
     def __init__(self,lang,username):
@@ -18,10 +21,9 @@ class Access():
         self.Microphone = SR.Microphone()
         self.lang = lang
         self.username = username
-        self.WikiCheckList = ['who is','what is']
+        self.wikiParams = numpy.array(['who is', 'what is'])
 
-
-    def start(self):
+    def run(self):
         with self.Microphone as source:
             speech = gTTS(text=f'Hello {self.username}, how can i help you?', lang=self.lang,slow=False)
             speech.save('Welcome.mp3')
@@ -33,15 +35,16 @@ class Access():
                 print('Transcribing, please wait...')
                 result = self.SR.recognize_google(query) # Transcribes the voice
                 print(result) # The result that was transcribed
+                
                 if 'time' in str.lower(result):
                     unformTIME = datetime.now()
                     formattedtime = unformTIME.strftime('%I:%M %p')
                     speech = gTTS(text=f'Current time is {formattedtime}.', lang=self.lang,slow=False)
                     speech.save('Time.mp3')
                     playsound.playsound('Time.mp3')
-                elif any(i in str.lower(result) for i in self.WikiCheckList):
+                elif any(i in str.lower(result) for i in self.wikiParams):
                     res = wikipedia.summary(result,sentences = 2)
-                    speech = gTTS(text=f'According to wikipedia,{res}', lang=self.lang,slow=False)
+                    speech = gTTS(text=f'{res}', lang=self.lang,slow=False)
                     speech.save('wiki.mp3')
                     playsound.playsound('wiki.mp3')
                 elif 'play' in str.lower(result):
@@ -83,7 +86,7 @@ class Access():
                 playsound.playsound('Error.mp3')
     
 
-Access('en','your_username_here').start() 
+Access(lang='en',username='your_username_here').run() 
 """
 Change "EN" to your specific language's code form, if you don't want it to speak in english.
 Change your_username_here to your desired username.
