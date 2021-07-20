@@ -1,10 +1,10 @@
 # Things you can do with it currently
-You can ask what is something, example - `What is gravity.`
-You can ask who is who, example - `Who is Mr Beast`
-You can ask your local time, example - `What is the time`
-You can ask the weather of any place, example - `Weather in New York`
+You can ask what is something, example - `What is gravity.`<br />
+You can ask who is who, example - `Who is Mr Beast`<br />
+You can ask your local time, example - `What is the time`<br />
+You can ask the weather of any place, example - `Weather in New York`<br />
 
-All the questions that you asked are saved so..
+All the questions that you asked are saved so..<br />
 You can ask what were your previous questions, example - `What were my previous questions.` (Tells your first 5 questions.)
 
 # Dependancies
