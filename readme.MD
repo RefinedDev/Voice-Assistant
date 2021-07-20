@@ -2,7 +2,7 @@
 You can ask what is something, example - `What is gravity.`<br />
 You can ask who is who, example - `Who is Mr Beast`<br />
 You can ask your local time, example - `What is the time`<br />
-You can ask the weather of any place, example - `Weather in New York`<br />
+You can ask the weather of any place, example - `Weather in New York`<br /> Requires setting up Weather class.
 You can play Youtube Videos, example - `Play Never gonna give you up`
 
 All the questions that you asked are saved so..<br />
