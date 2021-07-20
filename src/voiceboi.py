@@ -11,7 +11,6 @@ import urllib
 import re
 import webbrowser
 from weather import SetupWeatherForcasting
-from weather import weatherResultError
 from math import ceil
 import numpy
 
@@ -67,8 +66,9 @@ class VoiceAssistant():
                 else:
                     speech = gTTS(text=f"Sorry, i didn't get that.", lang=self.lang,slow=False)
                     speech.save('Unrecognized.mp3')
-                    playsound.playsound('Unrecognized.mp3')    
-            except BaseException as e:
+                    playsound.playsound('Unrecognized.mp3') 
+                       
+            except Exception as e:
                 print(e)
                 speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
                 speech.save('Error.mp3')
