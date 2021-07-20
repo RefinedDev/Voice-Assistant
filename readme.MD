@@ -1,3 +1,12 @@
+# Things you can do with it currently
+You can ask what is something, example - `What is gravity.`
+You can ask who is who, example - `Who is Mr Beast`
+You can ask your local time, example - `What is the time`
+You can ask the weather of any place, example - `Weather in New York`
+
+All the questions that you asked are saved so..
+You can ask what were your previous questions, example - `What were my previous questions.` (Tells your first 5 questions.)
+
 # Dependancies
 
 To make this work, you need the following modules.
