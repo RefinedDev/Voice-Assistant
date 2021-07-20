@@ -67,19 +67,8 @@ class VoiceAssistant():
                 else:
                     speech = gTTS(text=f"Sorry, i didn't get that.", lang=self.lang,slow=False)
                     speech.save('Unrecognized.mp3')
-                    playsound.playsound('Unrecognized.mp3')
-                    
-            except SR.UnknownValueError as e:
-                print(e)
-                speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
-                speech.save('Error.mp3')
-                playsound.playsound('Error.mp3')
-            except wikipedia.PageError as e:
-                print(e)
-                speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
-                speech.save('Error.mp3')
-                playsound.playsound('Error.mp3')
-            except weatherResultError as e:
+                    playsound.playsound('Unrecognized.mp3')    
+            except BaseException as e:
                 print(e)
                 speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
                 speech.save('Error.mp3')
