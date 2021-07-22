@@ -16,7 +16,8 @@ import json
 import numpy
 import itertools
 import pandas
-from csv import writer
+
+initWeather = SetupWeatherForcasting('YOUR_WEATHER_API_KEY_HERE') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
 
 class VoiceAssistant():
     def __init__(self,lang : str,username : str):
@@ -25,7 +26,6 @@ class VoiceAssistant():
         self.lang = lang
         self.username = username
         self.wikiParams = numpy.array(['who is', 'what is'])
-        self.csvFilesforWeather = False
 
     def run(self):
         """
@@ -67,7 +67,6 @@ class VoiceAssistant():
                 elif 'weather' in str.lower(result):
                     splittedResult = result.split()
                     del splittedResult[0:len(splittedResult) - 1]
-                    initWeather = SetupWeatherForcasting('1de9336927f54116acb6a189842a9ccf') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
                     weatherResultRaw = initWeather.findWeather(splittedResult[0])
                     weatherResult = weatherResultRaw[0]
                     temp = weatherResult['temp']
@@ -78,7 +77,7 @@ class VoiceAssistant():
                     questionAsked = True
 
                 
-                    if self.csvFilesforWeather:
+                    if initWeather.getCSVFilesPermission:
                         del weatherResultRaw[7 :]
                         dataList = []
 
@@ -140,13 +139,6 @@ class VoiceAssistant():
                 speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
                 speech.save('Error.mp3')
                 playsound.playsound('Error.mp3')
-
-    def setCSVfilesforWeathers(self,setCSVFileBOOL : bool = False):
-        """
-        Enable or disable making CSV files for the weather command, the CSV files have the weather data for a place upto a week, while the Assistant only tells it for the current day.
-        """
-        self.csvFilesforWeather = setCSVFileBOOL
-        print("Setting CSV Files For Weather To ",self.csvFilesforWeather)
     
 
 va = VoiceAssistant(lang='en',username='your_username_here')
@@ -154,6 +146,6 @@ va = VoiceAssistant(lang='en',username='your_username_here')
 Change "EN" to your specific language's code form, if you don't want it to speak in english.
 Change your_username_here to your desired username.
 """
-va.setCSVfilesforWeathers() # SET THIS TO TRUE IF U WANT IT TO SHOW CSV FILES. DEFAULTS TO FALSE
+initWeather.setCSVfilesforWeathers() # SET THIS TO TRUE IF U WANT IT TO SHOW CSV FILES. DEFAULTS TO FALSE
 va.run()
 

@@ -21,14 +21,28 @@ class SetupWeatherForcasting():
         self.apiKey = api_key
         self.weatherApi = Api(self.apiKey)
         self.weatherApi.set_granularity('daily')
+        self.csvFilesforWeather = False
 
     def findWeather(self,city):
+        """
+        Finds whether for the specified city, will error if City Name is Invalid or No API Key is Registered.
+        """
         try:
             weatherForecast = self.weatherApi.get_forecast(city=city)
             weatherResult = weatherForecast.get_series(['temp','precip']) # Subscript the variable to get specific day results [0] = today, [1] = tommorow etc.
             return weatherResult
         except Exception as e:
             raise weatherResultError(e)
+
+    def setCSVfilesforWeathers(self,setCSVFileBOOL : bool = False):
+        """
+        Enable or disable making CSV files for the weather command, the CSV files have the weather data for a place upto a week, while the Assistant only tells it for the current day.
+        """
+        self.csvFilesforWeather = setCSVFileBOOL
+        print("Setting CSV Files For Weather To ",self.csvFilesforWeather)
+
+    def getCSVFilesPermission(self):
+        return self.csvFilesforWeather
 
 # WEATHER RESULTS FOR SOME PLACES CAN BE INACCURATE!
 
