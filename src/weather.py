@@ -13,6 +13,7 @@ PS: IT TAKES 1 - 2 Hours for your API KEY To actually work after making the acco
 
 from weatherbit.api import Api
 import pandas
+import matplotlib.pyplot as mp
 
 class weatherResultError(Exception):
     pass
@@ -45,7 +46,7 @@ class SetupWeatherForcasting():
     def getCSVFilesPermission(self):
         return self.csvFilesforWeather
 
-    def createCSVFile(self,RawData):
+    def createCSVFile(self,RawData,cityName):
         """
         Creates a .csv file from the data given by raw weather data. If there is already a .csv file with the same name as weatherData.csv, it will be overwritten.
         """
@@ -53,7 +54,7 @@ class SetupWeatherForcasting():
         dataList = []
 
         for i in RawData:
-            dateStr = str(i['datetime'].strftime("%d %b %Y "))
+            dateStr = str(i['datetime'].strftime("%d %b"))
             temp = str(i['temp'])
             pre = str(i['precip'])
 
@@ -68,9 +69,14 @@ class SetupWeatherForcasting():
         weatherTable = pandas.DataFrame(dataList)
         weatherTable.set_index('Date')
         weatherTable.to_csv('weatherData.csv')
-
         df = pandas.read_csv('weatherData.csv',index_col=0)
         print('Here is the data for the weather up to a week\n',df)
+
+        # Show data in graph form
+        ax = mp.gca()
+        df.plot(kind='bar',x='Date',y='Temp',ax=ax,title=f'Weather data of {cityName} up to a week')
+        df.plot(kind='bar',x='Date',y='Chance Of Precipitation', color='red',ax=ax,title=f'Weather data of {cityName} up to a week')
+        mp.show()
 # WEATHER RESULTS FOR SOME PLACES CAN BE INACCURATE!
 
 

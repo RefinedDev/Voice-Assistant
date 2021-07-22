@@ -76,7 +76,7 @@ class VoiceAssistant():
                     questionAsked = True
 
                     if initWeather.getCSVFilesPermission:
-                       initWeather.createCSVFile(RawData=weatherResultRaw)
+                       initWeather.createCSVFile(RawData=weatherResultRaw,cityName=splittedResult[0])
 
                 elif 'question' in str.lower(result):
                     with open('previousQuestions.json','r') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
