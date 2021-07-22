@@ -11,7 +11,7 @@ You can ask what were your previous questions, example - `What were my previous 
 # Dependancies
 
 To make this work, you need the following modules.
-You can just install and run the installDepends.bat file <br />
+You can just install and run the `installDepends.bat` file
 OR if you don't trust the file then.. install then manually here.<br />
 ```
 pip install SpeechRecognition
