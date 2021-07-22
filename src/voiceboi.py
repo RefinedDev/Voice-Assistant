@@ -15,7 +15,6 @@ from math import ceil
 import json
 import numpy
 import itertools
-import pandas
 
 initWeather = SetupWeatherForcasting('YOUR_WEATHER_API_KEY_HERE') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
 
@@ -76,30 +75,9 @@ class VoiceAssistant():
                     playsound.playsound('weather.mp3')
                     questionAsked = True
 
-                
                     if initWeather.getCSVFilesPermission:
-                        del weatherResultRaw[7 :]
-                        dataList = []
+                       initWeather.createCSVFile(RawData=weatherResultRaw)
 
-                        for i in weatherResultRaw:
-                            dateStr = str(i['datetime'].strftime("%d %b %Y "))
-                            temp = str(i['temp'])
-                            pre = str(i['precip'])
-
-                            partialDataFrame = {
-                                'Date': dateStr,
-                                'Temp': temp,
-                                'Chance Of Precipitation': pre
-                            }
-
-                            dataList.append(partialDataFrame)
-                       
-                        weatherTable = pandas.DataFrame(dataList)
-                        weatherTable.set_index('Date')
-                        weatherTable.to_csv('weatherData.csv')
-
-                        df = pandas.read_csv('weatherData.csv',index_col=0)
-                        print('Here is the data for the weather up to a week\n',df)
                 elif 'question' in str.lower(result):
                     with open('previousQuestions.json','r') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
                         data = json.load(f)

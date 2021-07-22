@@ -12,6 +12,7 @@ PS: IT TAKES 1 - 2 Hours for your API KEY To actually work after making the acco
 """
 
 from weatherbit.api import Api
+import pandas
 
 class weatherResultError(Exception):
     pass
@@ -44,6 +45,32 @@ class SetupWeatherForcasting():
     def getCSVFilesPermission(self):
         return self.csvFilesforWeather
 
+    def createCSVFile(self,RawData):
+        """
+        Creates a .csv file from the data given by raw weather data. If there is already a .csv file with the same name as weatherData.csv, it will be overwritten.
+        """
+        del RawData[7 :]
+        dataList = []
+
+        for i in RawData:
+            dateStr = str(i['datetime'].strftime("%d %b %Y "))
+            temp = str(i['temp'])
+            pre = str(i['precip'])
+
+            partialDataFrame = {
+                'Date': dateStr,
+                'Temp': temp,
+                'Chance Of Precipitation': pre
+            }
+
+            dataList.append(partialDataFrame)
+        
+        weatherTable = pandas.DataFrame(dataList)
+        weatherTable.set_index('Date')
+        weatherTable.to_csv('weatherData.csv')
+
+        df = pandas.read_csv('weatherData.csv',index_col=0)
+        print('Here is the data for the weather up to a week\n',df)
 # WEATHER RESULTS FOR SOME PLACES CAN BE INACCURATE!
 
 
