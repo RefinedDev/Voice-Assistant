@@ -15,16 +15,22 @@ from math import ceil
 import json
 import numpy
 import itertools
+import pandas
+from csv import writer
 
 class VoiceAssistant():
-    def __init__(self,lang,username):
+    def __init__(self,lang : str,username : str):
         self.SR =  SR.Recognizer()
         self.Microphone = SR.Microphone()
         self.lang = lang
         self.username = username
         self.wikiParams = numpy.array(['who is', 'what is'])
+        self.csvFilesforWeather = False
 
     def run(self):
+        """
+        Runs the Assistant.
+        """
         with self.Microphone as source:
             speech = gTTS(text=f'Hello {self.username}, how can i help you?', lang=self.lang,slow=False)
             speech.save('Welcome.mp3')
@@ -61,14 +67,40 @@ class VoiceAssistant():
                 elif 'weather' in str.lower(result):
                     splittedResult = result.split()
                     del splittedResult[0:len(splittedResult) - 1]
-                    initWeather = SetupWeatherForcasting('YOUR_WEATHER_API_KEY_HERE') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
-                    weatherResult = initWeather.findWeather(splittedResult[0])[0]
+                    initWeather = SetupWeatherForcasting('1de9336927f54116acb6a189842a9ccf') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
+                    weatherResultRaw = initWeather.findWeather(splittedResult[0])
+                    weatherResult = weatherResultRaw[0]
                     temp = weatherResult['temp']
                     precepChance = weatherResult['precip']
                     speech = gTTS(text=f'In {splittedResult[0]} it is {ceil(int(temp))} celcius with {ceil(int(precepChance))}% chance of precipitation', lang=self.lang,slow=False)
                     speech.save('weather.mp3')
                     playsound.playsound('weather.mp3')
                     questionAsked = True
+
+                
+                    if self.csvFilesforWeather:
+                        del weatherResultRaw[7 :]
+                        dataList = []
+
+                        for i in weatherResultRaw:
+                            dateStr = str(i['datetime'].strftime("%d %b %Y "))
+                            temp = str(i['temp'])
+                            pre = str(i['precip'])
+
+                            partialDataFrame = {
+                                'Date': dateStr,
+                                'Temp': temp,
+                                'Chance Of Precipitation': pre
+                            }
+
+                            dataList.append(partialDataFrame)
+                       
+                        weatherTable = pandas.DataFrame(dataList)
+                        weatherTable.set_index('Date')
+                        weatherTable.to_csv('weatherData.csv')
+
+                        df = pandas.read_csv('weatherData.csv',index_col=0)
+                        print('Here is the data for the weather up to a week\n',df)
                 elif 'question' in str.lower(result):
                     with open('previousQuestions.json','r') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
                         data = json.load(f)
@@ -108,10 +140,20 @@ class VoiceAssistant():
                 speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
                 speech.save('Error.mp3')
                 playsound.playsound('Error.mp3')
+
+    def setCSVfilesforWeathers(self,setCSVFileBOOL : bool = False):
+        """
+        Enable or disable making CSV files for the weather command, the CSV files have the weather data for a place upto a week, while the Assistant only tells it for the current day.
+        """
+        self.csvFilesforWeather = setCSVFileBOOL
+        print("Setting CSV Files For Weather To ",self.csvFilesforWeather)
     
 
-VoiceAssistant(lang='en',username='your_username_here').run() 
+va = VoiceAssistant(lang='en',username='your_username_here')
 """
 Change "EN" to your specific language's code form, if you don't want it to speak in english.
 Change your_username_here to your desired username.
 """
+va.setCSVfilesforWeathers() # SET THIS TO TRUE IF U WANT IT TO SHOW CSV FILES. DEFAULTS TO FALSE
+va.run()
+

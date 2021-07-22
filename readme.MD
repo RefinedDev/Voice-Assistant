@@ -20,6 +20,7 @@ pip install wikipedia
 pip install gTTS
 pip install pyweatherbit
 pip install numpy
+pip install pandas (optional INSTALL IT ONLY IF YOU WANT .csv files of Weathers of places that gives information up to a whole week)
 ```
 Ok you're good now.
 I didn't make this a PyPi package because... why?
