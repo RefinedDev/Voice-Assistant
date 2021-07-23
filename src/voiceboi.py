@@ -26,14 +26,17 @@ class VoiceAssistant():
         self.username = username
         self.wikiParams = numpy.array(['who is', 'what is'])
 
+    def saveAndPlaySound(self,text : str,soundName : str):
+        speech = gTTS(text=text, lang=self.lang,slow=False)
+        speech.save(f'{soundName}.mp3')
+        playsound.playsound(f'{soundName}.mp3')
+
     def run(self):
         """
         Runs the Assistant.
         """
         with self.Microphone as source:
-            speech = gTTS(text=f'Hello {self.username}, how can i help you?', lang=self.lang,slow=False)
-            speech.save('Welcome.mp3')
-            playsound.playsound('Welcome.mp3')
+            self.saveAndPlaySound(f'Hello {self.username}, how can i help you?','Welcome')
 
             self.SR.adjust_for_ambient_noise(source) # If there's alot of noice in the background, this method will help to compensate for it.
             query = self.SR.listen(source) # Listening for the voice.
@@ -45,15 +48,11 @@ class VoiceAssistant():
                 if 'time' in str.lower(result):
                     unformTIME = datetime.now()
                     formattedtime = unformTIME.strftime('%I:%M %p')
-                    speech = gTTS(text=f'Current time is {formattedtime}.', lang=self.lang,slow=False)
-                    speech.save('Time.mp3')
-                    playsound.playsound('Time.mp3')
+                    self.saveAndPlaySound(f'Current time is {formattedtime}.','Time')
                     questionAsked = True
                 elif any(i in str.lower(result) for i in self.wikiParams):
                     res = wikipedia.summary(result,sentences = 2)
-                    speech = gTTS(text=f'{res}', lang=self.lang,slow=False)
-                    speech.save('wiki.mp3')
-                    playsound.playsound('wiki.mp3')
+                    self.saveAndPlaySound(f'{res}','wiki')
                     questionAsked = True
                 elif 'play' in str.lower(result):
                     formatresult = result.replace(" ", "+")
@@ -70,9 +69,7 @@ class VoiceAssistant():
                     weatherResult = weatherResultRaw[0]
                     temp = weatherResult['temp']
                     precepChance = weatherResult['precip']
-                    speech = gTTS(text=f'In {splittedResult[0]} it is {ceil(int(temp))} celcius with {ceil(int(precepChance))}% chance of precipitation', lang=self.lang,slow=False)
-                    speech.save('weather.mp3')
-                    playsound.playsound('weather.mp3')
+                    self.saveAndPlaySound(f'In {splittedResult[0]} it is {ceil(int(temp))} celcius with {ceil(int(precepChance))}% chance of precipitation','weather')
                     questionAsked = True
 
                     if initWeather.getCSVFilesPermission:
@@ -92,16 +89,12 @@ class VoiceAssistant():
                         print("You need to ask more than four questions before using this command.")
                         return;
 
-                    speech = gTTS(text=f'Your first five questions were,{firstFiveValues[0],firstFiveValues[1],firstFiveValues[2],firstFiveValues[3] and firstFiveValues[4]}', lang=self.lang,slow=False)
-                    speech.save('previousQuestions.mp3')
-                    playsound.playsound('previousQuestions.mp3')
+                    self.saveAndPlaySound(f'Your first five questions were,{firstFiveValues[0],firstFiveValues[1],firstFiveValues[2],firstFiveValues[3] and firstFiveValues[4]}','questions')
 
                     with open('previousQuestions.json','w') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
                         json.dump({},f,indent=4) # Clearing the old data so that new questions can fill up.
                 else:
-                    speech = gTTS(text=f"Sorry, i didn't get that.", lang=self.lang,slow=False)
-                    speech.save('Unrecognized.mp3')
-                    playsound.playsound('Unrecognized.mp3') 
+                    self.saveAndPlaySound(f"Sorry, i didn't get that.",'Unrecog')
 
                 if questionAsked:
                     with open('previousQuestions.json','r') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
@@ -114,10 +107,7 @@ class VoiceAssistant():
 
             except Exception as e:
                 print(e)
-                speech = gTTS(text=f"An error occured, please try again.", lang=self.lang,slow=False)
-                speech.save('Error.mp3')
-                playsound.playsound('Error.mp3')
-    
+                self.saveAndPlaySound(f"An error occured, please try again.",'Error')
 
 va = VoiceAssistant(lang='en',username='your_username_here')
 """
