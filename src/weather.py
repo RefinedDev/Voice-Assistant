@@ -72,11 +72,12 @@ class SetupWeatherForcasting():
         df = pandas.read_csv('weatherData.csv',index_col=0)
         print('Here is the data for the weather up to a week\n',df)
 
-        # Show data in graph form
+        # Plot the data
         ax = mp.gca()
         df.plot(kind='bar',x='Date',y='Temp',ax=ax,title=f'Weather data of {cityName} up to a week')
         df.plot(kind='bar',x='Date',y='Chance Of Precipitation', color='red',ax=ax,title=f'Weather data of {cityName} up to a week')
         mp.show()
+        
 # WEATHER RESULTS FOR SOME PLACES CAN BE INACCURATE!
 
 
