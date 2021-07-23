@@ -1,3 +1,5 @@
+@echo off
+title Install Dependancies 
 pip install SpeechRecognition
 pip install playsound
 pip install wikipedia
