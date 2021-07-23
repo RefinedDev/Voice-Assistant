@@ -8,7 +8,7 @@ You can play Youtube Videos, example - `Play Never gonna give you up`
 All the questions that you asked are saved so..<br />
 You can ask what were your previous questions, example - `What were my previous questions.` (Tells your first 5 questions.)
 
-# Dependancies
+# Prerequisite
 
 To make this work, you need the following modules.
 You can just install and run the `installDepends.bat` file
@@ -23,13 +23,6 @@ pip install numpy
 pip install pandas (optional INSTALL IT ONLY IF YOU WANT .csv files of Weathers of places that gives information up to a whole week)
 pip install matplotlib (reason as same as pandas)
 ```
-Ok you're good now.
-I didn't make this a PyPi package because... why?
-
-# File saving and respond time
-The assistant's respond time will depend on your internet.
-
-The `mp3` files will be saved in the directory where the `voicebot.py` file is located.
 
 # Language change
 You can change the language by editing the following line and changing the `first argument` to your language's code form. `Access(lang='your_language_code_form').start()`
