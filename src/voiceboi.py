@@ -12,7 +12,7 @@ import re
 import webbrowser
 from weather import SetupWeatherForcasting
 from math import ceil
-import json
+import sqlite3
 import numpy
 import itertools
 
@@ -76,34 +76,33 @@ class VoiceAssistant():
                        initWeather.createCSVFile(RawData=weatherResultRaw,cityName=splittedResult[0])
 
                 elif 'question' in str.lower(result):
-                    with open('previousQuestions.json','r') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
-                        data = json.load(f)
+                    db = sqlite3.connect('previousQuestions.DB')
+                    cursor = db.cursor()
+                    cursor.execute("CREATE TABLE IF NOT EXISTS questions (theQuestion TEXT NOT NULL)")
 
-                    firstFiveQuestions = dict(itertools.islice(data.items(),5))
-                    firstFiveValues = []
-
-                    for _,v in firstFiveQuestions.items():
-                        firstFiveValues.append(v)
-
-                    if len(firstFiveValues) < 5:
-                        print("You need to ask more than four questions before using this command.")
+                    cursor.execute("SELECT * FROM questions LIMIT 5")
+                    result = cursor.fetchall()
+                    if len(result) < 5:
+                        print("Ask more than 5 question before trying this command!")
+                        db.close()
                         return;
-
-                    self.saveAndPlaySound(f'Your first five questions were,{firstFiveValues[0],firstFiveValues[1],firstFiveValues[2],firstFiveValues[3] and firstFiveValues[4]}','questions')
-
-                    with open('previousQuestions.json','w') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
-                        json.dump({},f,indent=4) # Clearing the old data so that new questions can fill up.
+                
+                    self.saveAndPlaySound(f'Some of your previous asked questions were {result[0],result[1],result[2],result[3] and result[4]}','questions')
+                    cursor.execute("DELETE FROM questions")
+                    db.commit()
+                    db.close()
                 else:
                     self.saveAndPlaySound(f"Sorry, i didn't get that.",'Unrecog')
 
                 if questionAsked:
-                    with open('previousQuestions.json','r') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
-                        data = json.load(f)
-                    
-                    data[len(data) + 1] = result # Index set to the next highest index, like if the highest index is 1 then it will become 2.
+                    db = sqlite3.connect('previousQuestions.DB')
+                    cursor = db.cursor()
+                    cursor.execute("CREATE TABLE IF NOT EXISTS questions (theQuestion TEXT NOT NULL)")
 
-                    with open('previousQuestions.json','w') as f: # You might get directory error, so make sure your code is being excecuted in the SRC file.
-                        json.dump(data,f,indent=4)
+                    query = f"INSERT INTO questions (theQuestion) VALUES('{result}')"
+                    cursor.execute(query)
+                    db.commit()
+                    db.close()
 
             except Exception as e:
                 print(e)
