@@ -14,7 +14,6 @@ from weather import SetupWeatherForcasting
 from math import ceil
 import sqlite3
 import numpy
-import itertools
 
 initWeather = SetupWeatherForcasting('YOUR_WEATHER_API_KEY_HERE') # YOU NEED TO WRITE YOUR API KEY HERE, READ THE README.MD FILE FOR MORE INFORMATION ABOUT GETTING YOUR API KEY!
 
